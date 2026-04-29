@@ -7,20 +7,6 @@ namespace prodottiAbbigliamento
     {
         static void Main(string[] args)
         {
-            string file1 = "prodotti_abbigliamento.csv";
-            string[] f1 = File.ReadAllLines(file1);
-            List<double> lista = new List<double>();
-            for(int i = 1;  i < f1.Length; i++)
-            {
-                string[] riga = f1[i].Split(',');
-                lista.Add(Convert.ToInt32(riga[3]));
-               
-               
-            }
-            foreach(double i in  lista)
-            {
-                Console.WriteLine(i);
-            }
 
             string file = "prodotti_abbigliamento.csv";
             string[] f = File.ReadAllLines(file);
