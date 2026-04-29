@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.IO;
 
 namespace prodottiAbbigliamento
 {
@@ -13,6 +15,8 @@ namespace prodottiAbbigliamento
             List<double> Prezzi = new List<double>();
             List<string> Categorie = new List<string>();
             List<string> CategorieF = new List<string>();
+            List<string> nome = new List<string>();
+            List<string> categorietot = new List<string>();
 
             double somma = 0;
             int k = 0;
@@ -21,8 +25,6 @@ namespace prodottiAbbigliamento
             {
                 string[] riga = f[i].Split(',');
                 Prezzi.Add(Convert.ToDouble(riga[3].Replace(".", ",")));
-
-
             }
             foreach (double i in Prezzi) // faccio la somma e la media dei prezzi
             {
@@ -61,11 +63,47 @@ namespace prodottiAbbigliamento
                 {
                     CategorieF.Add(cate);
                 }
-
-
             }
             Console.WriteLine("Le categorie sono: " + CategorieF.Count);
 
+
+            List<double> inflazione = new List<double>();
+            List<string> disponibilità = new List<string>();
+
+            for(int i = 1; i < f.Length; i++)
+            {
+                string[] riga = f[i].Split(",");
+                riga[3] = riga[3].Replace(".", ",");
+                inflazione.Add(Convert.ToDouble(riga[3]));
+                nome.Add(riga[1]);
+                categorietot.Add(riga[2]);
+                disponibilità.Add(riga[4]);
+
+            }
+
+            string fileSec = "prodotti_abbligliamento_aggiornati.csv";
+
+            if (!File.Exists(fileSec))
+            {
+                File.Create(fileSec);
+            }
+
+            double percentuale = 0;
+            string[] inflazione2 = new string[inflazione.Count];
+            for(int i = inflazione.Count - 1; i >= 0; i--)
+            {
+                percentuale = (inflazione[i] * 10) / 100;
+                inflazione[i] += percentuale;
+                
+            }
+            using(StreamWriter sw =  new StreamWriter(fileSec))
+            {
+                sw.WriteLine("ID,Nome,Categoria,Prezzo,Disponibilita");
+                for(int i = 0; i < Prezzi.Count; i++)
+                {
+                    sw.WriteLine((i + 1) + "," + nome[i] + "," + categorietot[i] + "," + inflazione[i] + "," + disponibilità[i]);
+                }
+            }
         }
     }
 }
