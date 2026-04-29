@@ -89,7 +89,6 @@ namespace prodottiAbbigliamento
             }
 
             double percentuale = 0;
-            string[] inflazione2 = new string[inflazione.Count];
             for(int i = inflazione.Count - 1; i >= 0; i--)
             {
                 percentuale = (inflazione[i] * 10) / 100;
@@ -104,6 +103,15 @@ namespace prodottiAbbigliamento
                     sw.WriteLine((i + 1) + "," + nome[i] + "," + categorietot[i] + "," + inflazione[i] + "," + disponibilità[i]);
                 }
             }
+
+            foreach(string c in categorietot)
+            {
+                using(StreamWriter sw = new StreamWriter(c + ".txt"))
+                {
+
+                }
+            }
+            
         }
     }
 }
